@@ -1,0 +1,13 @@
+Using Redirect
+
+The Redirect component has a similar syntax for passing the information:
+
+<Redirect
+  className="btn btn-primary"
+  to={{
+    pathname: "/details",
+    state: this.state
+  }}
+>
+  Register
+</Redirect>
