@@ -1,0 +1,49 @@
+As you have seen in the previous module, the page is completely refreshed when clicked on any of the navigation links so it's not using client-side routing yet.
+
+This is because we're using anchor tag (<a />) for navigation links.
+
+React router provides a Link component to fix this.
+
+Open components/Header.js file and import Link at the top of the file like this:
+
+import { Link } from 'react-router-dom';
+
+The Link component accepts a to prop where we specify the path like this:
+
+<Link to="/">Home</Link>
+
+So make this change for all of the links in the Header.js file.
+
+Your changed Header.js file will look like this:
+
+import React from "react";
+import { Link } from "react-router-dom";
+
+const Header = () => {
+  return (
+    <ul className="navigation-menu">
+      <li>
+        <Link to="/">Home</Link>
+      </li>
+      <li>
+        <Link to="/about">About</Link>
+      </li>
+      <li>
+        <Link to="/contact">Contact</Link>
+      </li>
+    </ul>
+  );
+};
+
+export default Header;
+
+If you check the application now, you will see that, there is no page refresh happening while using the navigation.
+Here's a Code Sandbox demo: https://codesandbox.io/s/condescending-feynman-juto6?file=/src/components/Header.js
+
+This looks more natural now and we get an instant response without a flash of the screen.
+
+The Link component uses HTML5 history API to achieve the client-side routing functionality without a page refresh.
+
+So you get an instant response and is the preferred way to do client-side routing.
+
+output 10
