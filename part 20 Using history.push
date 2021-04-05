@@ -1,0 +1,22 @@
+Normally, to redirect using history.push method, we use it like this:
+
+props.history.push('/register');
+
+If you need to do some processing before sending the data like removing some values or to trim the values, we can call a handler on the submit button click and pass data as shown below:
+
+props.history.push({ 
+ pathname: '/register',
+ state: data_you_need_to_pass
+});
+
+Here's a Code Sandbox demo: https://codesandbox.io/s/pass-data-routing-usn71?file=/src/components/UserForm.js
+
+Here, inside the handleOnSubmit method, we're calling the history.push method:
+
+handleOnSubmit = (event) => {
+   event.preventDefault();
+   this.props.history.push({
+     pathname: "/details",
+     state: this.state
+   });
+};
