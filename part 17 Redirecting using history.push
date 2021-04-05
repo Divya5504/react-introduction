@@ -1,0 +1,37 @@
+Until now, we have seen how we can navigate to any component by creating a link or by directly entering the URL into the browser.
+
+But sometimes we may need to manually redirect the user to a different route depending on the situation.
+
+Let's say we're on the login page with /login route and then once the user logs into the application, we need to redirect the user to /dashboard component.
+
+As we have seen previously when we declare any Route inside the BrowserRouter, React router automatically passes 3 properties to the component mentioned in the Route:
+
+history
+location and 
+match
+
+The history property contains many methods like push, replace, go, goBack, etc.
+
+One of them which is useful for manually redirecting the user to another route is the push method.
+
+It accepts the route to which the user needs to be redirected.
+
+So If we want the user to be redirected to /dashboard route, we can do that in the following way:
+
+this.props.history.push('/dashboard'); // for class components
+
+props.history.push('/dashboard'); // for functional components
+
+Here's a Code Sandbox demo: https://codesandbox.io/s/little-mountain-j4gcu?file=/src/App.js
+
+In this demo, we have 3 routes, /, /login and /dashboard.
+
+In the / route, we're displaying a login link and when clicked on that, the user is taken to the login form where he enters the email and password.
+
+If the email matches with value admin@example.com and the password matches with value password then we're showing the user, a welcome message by manually redirecting the user to the /dashboard page using history.push method which is called inside the handleLogin method.
+
+If the email and password do not match, then we're showing an error message.
+
+In the above code sandbox, for simplicity, I have written all the components inside a single file. But when working on an actual project, it's usual practice to write each component in a separate file.
+
+
