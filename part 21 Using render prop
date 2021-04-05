@@ -1,0 +1,113 @@
+Sometimes we may need to pass additional props to the Route component.
+
+Let's say there is an isLoggedIn flag and we want to pass it to the Dashboard component in the Route declaration like this:
+
+let isLoggedIn = false;
+
+// Route
+<Route
+  path="/dashboard"
+  component={Dashboard}
+  isLoggedIn={isLoggedIn}
+/>
+
+But this will not work because here, we have added the isLoggedIn prop to the Route component and not to the Dashboard component.
+
+So If you try to print the isLoggedIn flag inside the Dashboard component, you will get undefined.
+
+const Dashboard = (props) => {
+  const { isLoggedIn } = props;
+  console.log("isLoggedIn", isLoggedIn); // undefined
+  return <p>You're logged in. Welcome back!</p>;
+};
+
+Here's a Code Sandbox demo: https://codesandbox.io/s/unruffled-dust-y2bpp?file=/src/App.js
+
+So to correctly pass the isLoggedIn prop to the Dashboard component, we need to use the following syntax:
+
+let isLoggedIn = false;
+
+// Route
+<Route
+  path="/dashboard"
+  component={(props) => (
+    <Dashboard {...props} isLoggedIn={isLoggedIn} />
+  )}
+/>
+
+Here we're using the render props pattern, where we're spreading out all the default props passed to the Dashboard component like location, history and match and then adding our isLoggedIn prop.
+
+If you're not familiar with render props pattern, you can learn about them here.
+
+Here's a Code sandbox demo: https://codesandbox.io/s/jovial-sutherland-69jxc?file=/src/App.js
+
+The above code works but there is an issue with using this syntax.
+
+When we use the render props pattern using the component prop for Route, then the component to which the props are passed will be created on every re-render of the parent component.
+
+Here's a Code Sandbox demo to understand it better: https://codesandbox.io/s/serene-poitras-6yzvf?file=/src/App.js
+
+Here, I have converted the Dashboard and App components to a class-based component to demonstrate the issue.
+
+In the App component, I have added a button just for a demonstration that increments a counter state when clicked on it.
+
+Now, If you visit this URL https://6yzvf.csb.app/dashboard and check the browser console, you will see two logs. one called and the other (isLoggedIn false or isLoggedIn true) depending on whether you're logged in or not.  output 20
+..............................................
+The called log is coming from the constructor of the Dashboard component and
+isLoggedIn log is coming from the render method of Dashboard component.
+
+So when we click on the increment counter button, the state changes so the App component gets re-rendered and because we're using the render props pattern which creates a new render function on every re-render, the Dashboard component also gets re-created for every re-render.
+
+Therefore the constructor of the Dashoard component is called and we're getting the log of called statement.
+
+You can see this behavior in the below gif.
+output 21
+.................................
+This is a performance issue because we're re-creating a new instance of the Dashboard component on every re-render of the application which is not good.
+
+So we can fix this by changing the prop from component to render like this:
+
+// instead of using this:
+
+<Route
+  path="/dashboard"
+  component={(props) => (
+    <Dashboard {...props} isLoggedIn={isLoggedIn} />
+  )}
+/>
+
+// we can use this:
+
+<Route
+  path="/dashboard"
+  render={(props) => (
+    <Dashboard {...props} isLoggedIn={isLoggedIn} />
+  )}
+/>
+
+Here, we have just changed the name of the prop from component to render.
+output 22
+....................
+This is a performance issue because we're re-creating a new instance of the Dashboard component on every re-render of the application which is not good.
+
+So we can fix this by changing the prop from component to render like this:
+
+// instead of using this:
+
+<Route
+  path="/dashboard"
+  component={(props) => (
+    <Dashboard {...props} isLoggedIn={isLoggedIn} />
+  )}
+/>
+
+// we can use this:
+
+<Route
+  path="/dashboard"
+  render={(props) => (
+    <Dashboard {...props} isLoggedIn={isLoggedIn} />
+  )}
+/>
+
+Here, we have just changed the name of the prop from component to render.
