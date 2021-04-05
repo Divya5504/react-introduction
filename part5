@@ -1,0 +1,14 @@
+Note that, we only need to add the exact prop for the Home component route and there is no need of adding that prop to other routes in this case.
+Now, let's add the route for /contact page.
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Route path="/" component={Home} exact={true} />
+      <Route path="/about" component={About} />
+      <Route path="/contact" component={Contact} />
+    </BrowserRouter>
+  );
+};
+
+Here's a demo:
