@@ -1,0 +1,94 @@
+The navigation looks nice but It will be good to highlight a particular link when we're on that page.
+
+So it's easy for the user to identify which page he/she is on If the content of the page is different.
+
+Therefore, React router provides a NavLink component which is similar to Link but it can take an additional activeClassName prop where we specify the name of the CSS class to apply for the link when we're on that page.
+
+So open the styles.css file and add the following CSS rule at the end of the file:
+
+.active {
+  font-weight: bold;
+  color: red;
+}
+
+and in the Header.js file, change Link to NavLink in the import statement:
+
+import { NavLink } from 'react-router-dom';
+
+The NavLink component is used like this:
+
+<NavLink to="/" activeClassName="active">Home</NavLink>
+
+Make this change for all the links in the file.
+
+So your changed Header.js file will look like this now:
+
+import React from "react";
+import { NavLink } from "react-router-dom";
+
+const Header = () => {
+  return (
+    <ul className="navigation-menu">
+      <li>
+        <NavLink to="/" activeClassName="active">
+          Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/about" activeClassName="active">
+          About
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/contact" activeClassName="active">
+          Contact
+        </NavLink>
+      </li>
+    </ul>
+  );
+};
+
+export default Header;
+
+Here, we have given the activeClassName prop to all the links so when we're on that route, the React router will automatically add that class to that link.
+output 11
+..........................
+Here's a Code Sandbox demo: https://codesandbox.io/s/affectionate-snyder-y5vfz?file=/src/components/Header.js
+
+If you see, we're getting the red color link when we click on any link or more specifically when we're on that particular route.
+
+But you will see that the Home link is also highlighted all the time even if we're not on that page which is not what we expected.
+
+This is because the NavLink component also compares the path to check If it starts with the provided route similar to Route inside BrowserRouter.
+
+So both / and /home starts with / so both the links are highlighted therefore here also we need to provide the exact boolean prop for the NavLink like this:
+
+import React from "react";
+import { NavLink } from "react-router-dom";
+
+const Header = () => {
+  return (
+    <ul className="navigation-menu">
+      <li>
+        <NavLink to="/" activeClassName="active" exact={true}>
+          Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/about" activeClassName="active">
+          About
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/contact" activeClassName="active">
+          Contact
+        </NavLink>
+      </li>
+    </ul>
+  );
+};
+
+export default Header;
+
+Now, If you check the application, you will see that only the link which is clicked is highlighted and the home link is no more highlighted.
+output 12
