@@ -1,0 +1,38 @@
+When we use the Link component, Redirect component or history.push method to redirect the user to a different route, we may need to pass additional information while redirecting.
+
+In this section, we will see how to achieve that.
+
+Normally we use the Link component from react-router-dom as shown below:
+
+<Link to="/register">Register</Link>
+
+So when we click on the Register link in the navigation menu, it will redirect to the /register route, but Link also allows us to pass additional data while redirecting. 
+
+Here's how we can do that:
+
+<Link to={{ 
+ pathname: "/register", 
+ state: data_you_need_to_pass 
+}}>
+ Register
+</Link>
+
+Here, at the place of data_you_need_to_pass, we can pass a string or object, array etc. and for the pathname we provide the route to be redirected to.
+
+And in the component linked to the /register route, we will get the passed data in props.location.state.
+
+Here's a Code Sandbox demo: https://codesandbox.io/s/pass-data-routing-link-forked-6eo0i?file=/src/components/UserForm.js
+
+Here, inside the UserForm.js file, for the Register button, we're passing all the user entered details to the /details route as shown below:
+
+<Link
+  className="btn btn-primary"
+  to={{
+    pathname: "/details",
+    state: this.state
+  }}
+>
+  Register
+</Link>
+
+and in the Details.js file which is the component linked to the /details route, we're accessing the passed state information using props.location.state.
