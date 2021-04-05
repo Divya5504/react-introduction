@@ -1,0 +1,126 @@
+As you have seen, we're directly accessing the /about, /contact routes from the URL but that's not a good user experience.
+
+We can't tell the user to directly access the pages by entering URL. So we need to provide a navigation menu so it's easy for the user to navigate between various pages.
+
+So let's do that.
+
+Create a new components folder inside the src folder and add Header.js file inside it with the following content:
+
+import React from "react";
+
+const Header = () => {
+  return (
+    <ul className="navigation-menu">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        <a href="/about">About</a>
+      </li>
+      <li>
+        <a href="/contact">Contact</a>
+      </li>
+    </ul>
+  );
+};
+
+export default Header;
+
+To get this component to be displayed on every route, we need to add the Header component inside the BrowserRouter but outside the Switch component like this:
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Header />
+      <Switch>
+        <Route path="/" component={Home} exact={true} />
+        <Route path="/about" component={About} />
+        <Route path="/contact" component={Contact} />
+        <Route component={NotFound} />
+      </Switch>
+    </BrowserRouter>
+  );
+};
+
+To make the application look good, add the following contents inside the styles.css file:
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 1rem;
+}
+
+.navigation-menu {
+  list-style-type: none;
+  margin-bottom: 1rem;
+}
+
+.navigation-menu li {
+  display: inline-block;
+}
+
+.navigation-menu li a {
+  padding: 0.5rem;
+}
+
+and import this styles.css inside the index.js file in the following way:
+
+import './styles.css';
+
+So your entire index.js file will look like this:
+
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Header from "./components/Header";
+import "./styles.css";
+
+const Home = () => {
+  return <h2>Home Page</h2>;
+};
+
+const About = () => {
+  return <h2>About Page</h2>;
+};
+
+const Contact = () => {
+  return <h2>Contact Page</h2>;
+};
+
+const NotFound = () => {
+  return <h2>Page Not found.</h2>;
+};
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Header />
+      <Switch>
+        <Route path="/" component={Home} exact={true} />
+        <Route path="/about" component={About} />
+        <Route path="/contact" component={Contact} />
+        <Route component={NotFound} />
+      </Switch>
+    </BrowserRouter>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById("root"));
+
+Now, restart the application by running npm start command If it's not running.
+
+You will see the following screen:
+  output 9
+  .........................
+  Here's a Code Sandbox demo: https://codesandbox.io/s/epic-bush-5x6x3?file=/src/index.js
+
+As you can see, we're able to visit various pages using the navigation menu.
+
+But If you notice clearly, you will see that the page is completely refreshed when we click on any of the links.
+
+So we're not taking full advantage of client-side routing yet. So let's fix this in the next module.
