@@ -1,0 +1,31 @@
+Setting up project
+React Router Introduction / Let's begin
+Let's create a React application using create-react-app so we can start using the react-router-dom library.
+
+Create a new React application by executing the following command from the terminal:
+
+npx create-react-app react-router-basics
+
+Here, npx command allows us to execute the create-react-app command without installing the create-react-app npm package on our local machine.
+
+react-router-basics is the name we have given for our React application. You can choose the name as per your choice.
+
+Once the application is created, delete all files from the src folder and create index.js and styles.css files inside the src folder.
+
+Install the react-router-dom library from npm repository from inside the react-router-basics folder:
+
+npm install react-router-dom
+
+Open the index.js file and add the following contents inside it:
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+ReactDOM.render(
+  <h1>Introduction to Routing</h1>,
+  document.getElementById('root')
+);
+
+Now, start the React application by executing the npm start command from the project directory (react-router-basics).
+
+You will see the following screen If you navigate to http://localhost:3000/ URL.
