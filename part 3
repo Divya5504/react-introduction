@@ -1,0 +1,17 @@
+Here's a Code Sandbox demo: https://codesandbox.io/s/thirsty-waterfall-grxe9?file=/src/index.js
+
+Now, let's add another route for the About page inside the BrowserRouter.
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Route path="/" component={Home} />
+      <Route path="/about" component={About} />
+    </BrowserRouter>
+  );
+};
+
+Now, If you navigate to http://localhost:3000/ you will see the Home component content displayed which is as expected.
+
+But, If you go to http://localhost:3000/about URL, you will see the following screen: (output 3 and 4)
+
