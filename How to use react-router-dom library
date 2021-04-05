@@ -1,0 +1,84 @@
+To use the react-router-dom library we need to provide a separate route for each component.
+
+So If we have a /about page then we will display the About component and for /contact page, we will display the Contact component.
+
+Let's create Home, About and Contact as functional components inside the index.js file.
+
+const Home = () => {
+  return <h2>Home Page</h2>;
+};
+
+const About = () => {
+  return <h2>About Page</h2>;
+};
+
+const Contact = () => {
+  return <h2>Contact Page</h2>;
+};
+
+Here, we're using arrow function syntax for writing components, so If you're not familiar with it, check out my this article to understand it better.
+
+To implement routing, react-router-dom provides BrowserRouter and Route components.
+
+Import them at the top of the index.js file like this:
+
+import { BrowserRouter, Route } from 'react-router-dom';
+
+Now, create an App component inside the index.js file where we'll define our routes.
+
+const App = () => {
+  return (
+    <BrowserRouter>
+    
+    </BrowserRouter>
+  );
+};;
+
+We need to define all our routes inside the BrowserRouter component.
+
+So let's create a route for the home page to display our previously created Home component.
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Route path="/" component={Home} />
+    </BrowserRouter>
+  );
+};
+
+The Route component accepts the path and component as the props.
+
+For the path, we provided / because we want to display the Home component on our home page.
+
+Now, for the ReactDOM.render method pass App as the component instead of the previously added h1 tag.
+
+ReactDOM.render(<App />, document.getElementById('root'));
+Your entire index.js will look like this now:
+
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter, Route } from "react-router-dom";
+
+const Home = () => {
+  return <h2>Home Page</h2>;
+};
+
+const About = () => {
+  return <h2>About Page</h2>;
+};
+
+const Contact = () => {
+  return <h2>Contact Page</h2>;
+};
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Route path="/" component={Home} />
+    </BrowserRouter>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById("root"));
+
+Now, If you access the application at http://localhost:3000/, you will see the Home Page text displayed which is coming from our Home component.
