@@ -1,0 +1,83 @@
+Setting up 404 page
+React Router Introduction / 404 Page
+Now, we're able to correctly render the Home, About and Contact components.
+
+But what If, we access a route that does not exist?
+out put 6
+......................
+As you can see, when we access the /help route, we get a blank page because such route does not exist and we don't get any error in the console also.
+
+So when there is no matching route available in the BrowserRouter, the React router will display a blank page.
+
+So to fix this, we can add a component to be displayed for an invalid route.
+
+Add a NotFound component after the Contact component(though the order does not matter).
+
+const NotFound = () => {
+  return <h2>Page Not found.</h2>;
+};
+
+To display this component for an invalid route, we need to add it as the last Route in the list of Routes inside the BrowserRouter without the path prop like this:
+
+const App = () => {
+  return (
+    <BrowserRouter>
+        <Route path="/" component={Home} exact={true} />
+        <Route path="/about" component={About} />
+        <Route path="/contact" component={Contact} />
+        <Route component={NotFound} />
+    </BrowserRouter>
+  );
+};
+
+So when none of the paths matches, the last route will be executed and the corresponding component will be displayed.
+
+If you try an invalid route now, you will see the NotFound page being displayed.
+
+
+out put 7
+.................
+Here's a Code Sandbox demo: https://codesandbox.io/s/bold-tdd-423zu?file=/src/index.js
+
+As you can see, the NotFound component is displayed for an invalid route.
+
+But you will also notice it's also displayed when we access other routes like /about, /contact and / route.
+
+This is because, when we specify routes inside the BrowserRouter, all the routes will be checked for matching routes one by one.
+
+If there is a matching route available then the corresponding component will be displayed and as there is no path provided for NotFound component Route, that component will also be displayed.
+
+To fix this, react-router-dom provides another component known as Switch.
+
+It needs to be wrapped around all the routes. So let's do that.
+
+First, add an import for the Switch at the top of the index.js file like this:
+
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
+and replace the App component code with the following code:
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" component={Home} exact={true} />
+        <Route path="/about" component={About} />
+        <Route path="/contact" component={Contact} />
+        <Route component={NotFound} />
+      </Switch>
+    </BrowserRouter>
+  );
+};
+
+Here, we've just wrapped all the routes in a Switch component.
+
+Now, If you check the application, you will see that only for invalid Route, the NotFound component is displayed and is not displayed for other components.
+
+output8
+.............................
+Here's a Code Sandbox demo: https://codesandbox.io/s/solitary-mountain-8pukt?file=/src/index.js
+
+So the Switch component will act similar to the switch case with a break statement where it checks for matching route and If there is a matching route, then it will render that corresponding component and it will not check other routes for matching.
+
+And the last NotFound component Route will act as a default case because we have not provided any path for it. If there is no matching route in all the routes mentioned, then the last mentioned route without path will be executed.
