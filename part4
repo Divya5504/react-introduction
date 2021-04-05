@@ -1,0 +1,20 @@
+As you can see, we get Home and About components content getting displayed instead of just About component content when we access /about page.
+
+This is because when we provide a path prop to the Route, it matches the start of the path so both the / and /about starts with / therefore, the content of both of the components gets displayed.
+
+To fix this, we need to pass an additional exact prop to the Route component.
+
+The exact is a boolean prop so when we provide exact={true} as a prop to the Route component, it will display that component of the Route, only when the path matches exactly.
+
+So let's add the exact prop to the first route which is for the Home component.
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Route path="/" component={Home} exact={true} />
+      <Route path="/about" component={About} />
+    </BrowserRouter>
+  );
+};
+
+Now, If you check the application, you will see that the /about page is correctly displaying contents of only the About component.
