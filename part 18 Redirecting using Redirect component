@@ -1,0 +1,22 @@
+There is another way of redirecting a user to another route using the Redirect component provided by react-router-dom.
+
+The Redirect component accepts a "to" prop where we specify the route to redirect like this:
+
+import { Redirect } from "react-router-dom";
+
+// JSX
+<Redirect to="/login">Login</Redirect>
+
+Here's a Code Sandbox demo: https://codesandbox.io/s/strange-browser-wuzrm
+
+Here, we have used the Redirect component inside the Home component like this:
+
+const Home = (props) => {
+  console.log(props);
+  return <Redirect to="/login">Login</Redirect>;
+};
+
+So when we click on the Go back to Home link or when we try to goto to the Home page we're always redirected to the login page.
+
+So for example, once the user logs into the system, he should not visit the login page again until he logs out so we can use either history.push method or Redirect component to redirect the user to the dashboard page If the user tries to access /login page once logged in.
+
