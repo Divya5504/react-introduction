@@ -1,0 +1,225 @@
+When we mention any Route inside the BrowserRouter then the component mentioned in the Route will automatically receive some props.
+
+Let's say we have a Profile component that can be accessed using /profile route.
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Header />
+      <Switch>
+        <Route path="/" component={Home} exact={true} />
+        <Route path="/about" component={About} />
+        <Route path="/contact" component={Contact} />
+        <Route path="/profile" component={Profile} />
+        <Route component={NotFound} />
+      </Switch>
+    </BrowserRouter>
+  );
+};
+
+We will also add a Profile link in the navigation menu at the end like this:
+
+import React from "react";
+import { NavLink } from "react-router-dom";
+
+const Header = () => {
+  return (
+    <ul className="navigation-menu">
+      <li>
+        <NavLink to="/" activeClassName="active" exact={true}>
+          Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/about" activeClassName="active">
+          About
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/contact" activeClassName="active">
+          Contact
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/profile" activeClassName="active">
+          Profile
+        </NavLink>
+      </li>
+    </ul>
+  );
+};
+
+export default Header;
+
+And we have a Profile component like this:
+
+const Profile = (props) => {
+  console.log(props);
+  return <h2>Profile Page</h2>;
+};
+
+Then when we visit the profile page, we can see the props passed to that component in the browser console.
+
+output 13
+...............
+Here's a Code Sandbox demo: https://codesandbox.io/s/ecstatic-dream-po130?file=/src/index.js
+
+As you can see, when we access the profile page, the React router automatically passes 3 properties to the Profile component which are:
+
+history
+location and
+match
+
+These are very useful for accessing URL data, for redirecting the user and for other useful functionalities.
+
+All the query parameters, hash from the URL can be accessed from the location and match properties.
+
+So If we're displaying user information on the profile page with the option to edit the information then the URL for editing the profile might be /profile/10 where 10 is the user id of the user.
+
+Here, we have hardcoded the user id 10 in the URL /profile/10. But it will be dynamic depending on the logged-in user.
+
+So how can we specify the dynamic value?
+
+For that, we need to use the URL parameter syntax which is denoted by ":some_name" without quotes.
+
+So instead of /profile/10 we can use /profile/:id to specify the dynamic id and we can specify this in the new Route for EditProfile component as shown below:
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Header />
+      <Switch>
+        <Route path="/" component={Home} exact={true} />
+        <Route path="/about" component={About} />
+        <Route path="/contact" component={Contact} />
+        <Route path="/profile" component={Profile} />
+        <Route path="/profile/:id" component={EditProfile} />
+        <Route component={NotFound} />
+      </Switch>
+    </BrowserRouter>
+  );
+};
+
+Add the new EditProfile component like this:
+
+const EditProfile = (props) => {
+  console.log(props);
+  return <h2>Edit profile page</h2>;
+};
+
+and change the Profile component to include a link for editing the profile:
+
+const Profile = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <h2>Profile Page</h2>
+      <Link to="/profile/10">Edit Profile</Link>
+    </div>
+  );
+};
+
+Your entire index.js file will look like this now:
+
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
+import Header from "./components/Header";
+import "./styles.css";
+
+const Home = () => {
+  return <h2>Home Page</h2>;
+};
+
+const About = () => {
+  return <h2>About Page</h2>;
+};
+
+const Contact = () => {
+  return <h2>Contact Page</h2>;
+};
+
+const Profile = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <h2>Profile Page</h2>
+      <Link to="/profile/10">Edit Profile</Link>
+    </div>
+  );
+};
+
+const EditProfile = (props) => {
+  console.log(props);
+  return <h2>Edit profile page</h2>;
+};
+
+const NotFound = () => {
+  return <h2>Page Not found.</h2>;
+};
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Header />
+      <Switch>
+        <Route path="/" component={Home} exact={true} />
+        <Route path="/about" component={About} />
+        <Route path="/contact" component={Contact} />
+        <Route path="/profile" component={Profile} />
+        <Route path="/profile/:id" component={EditProfile} />
+        <Route component={NotFound} />
+      </Switch>
+    </BrowserRouter>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById("root"));
+
+Now, let's check the application.
+output 14
+..................
+Here's a Code Sandbox demo: https://codesandbox.io/s/crazy-mirzakhani-et12h?file=/src/index.js
+
+As you can see, when we click on the Profile navigation menu, the Profile component is displayed.
+
+But when we click on the Edit Profile link, the URL is changed to /profile/10 but we're still seeing the Profile component. Ideally, we should see the Edit Profile component.
+
+This happens again because of the exact match issue.
+
+In the following routes,
+
+<Route path="/profile" component={Profile} />
+<Route path="/profile/:id" component={EditProfile} />
+
+both the paths in Route start with /profile so the React router always displays the first matching route which is the Profile component because we're using the Route inside the Switch component.
+
+And Switch component does not check the next routes, once it finds a matching route.
+
+So we again need to add the exact prop to the /profile route like this:
+
+<Route path="/profile" component={Profile} exact={true} />
+<Route path="/profile/:id" component={EditProfile} />
+
+Now, after making this change, If you check the application, you will see the correct EditProfile component when clicked on the Edit Profile link.
+output 15
+...................
+Here's a Code Sandbox demo: https://codesandbox.io/s/small-firefly-t0zuu?file=/src/index.js
+
+If you check the console, you will see that the dynamic id passed to the EditProfile page is available under the params property inside the match property.
+
+
+
+So let's change the EditProfile component to display the dynamic id which is being edited.
+
+const EditProfile = (props) => {
+  console.log(props);
+  return <p>Editing profile page of user with id {props.match.params.id} </p>;
+};
+
+So If you change the id in the URL, you will see the updated value on the page
+output 16
+.....................
+Here's a Code Sandbox demo: https://codesandbox.io/s/funny-poitras-k36hj?file=/src/index.js
+
+So using the params property of the match property we can access the dynamic value passed to the component.
